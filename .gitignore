@@ -1,0 +1,12 @@
+# ignore .net files
+*.net
+
+# ignore .o object files
+*.o
+
+# ignore vs code files
+*.json
+*.exe
+*.bin
+*.ipch
+*.log

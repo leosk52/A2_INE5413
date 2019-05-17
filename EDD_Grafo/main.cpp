@@ -1,11 +1,14 @@
 #include "include/UndirectedGraph.h"
+#include "include/DirectedGraph.h"
 
 using namespace std;
 
 
 int main(int argc, char** argv) {
 
-    GrafoNaoDirigido* grafo = new GrafoNaoDirigido();
+    GrafoNaoDirigido* grafoNaoDirigido = new GrafoNaoDirigido();
+    GrafoDirigido* grafoDirigido = new GrafoDirigido();
+    GrafoSimples* grafo = new GrafoSimples();
 
     // Checagem do arquivo passado por parametro
     if (argc < 2) {
@@ -13,15 +16,13 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    if (!grafo->ler(argv[1])) {
+    if (!grafoDirigido->ler(argv[1])) {
         cout << "Arquivo inexistente" << '\n';
         return 1;
     }
 
 
     grafo->imprimir();
-
-    delete grafo;
 
     return 0;
 }
