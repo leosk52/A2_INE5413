@@ -9,7 +9,8 @@ g++ -c src/UndirectedGraph.cpp -std=c++17
 
 
 # Executables compiling
-g++ -o ../runMain.o main.cpp SimpleGraph.o DirectedGraph.o UndirectedGraph.o -std=c++17
+g++ -o ../runEX2_topOrd.o ex2_ordTopologica.cpp SimpleGraph.o DirectedGraph.o UndirectedGraph.o -std=c++17
+g++ -o ../runEX3_arvGerMin.o ex3_arvGerMin.cpp SimpleGraph.o DirectedGraph.o UndirectedGraph.o -std=c++17
 
 
 # Objects delete
