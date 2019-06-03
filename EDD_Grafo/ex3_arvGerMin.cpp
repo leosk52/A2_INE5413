@@ -65,7 +65,6 @@ int main(int argc, char const *argv[]) {
 
 
     // Saida
-	// print a
 	float peso_total = 0;
 	string msg = "";
 	for (int i = 2; i < num_vertices; ++i) {
@@ -76,7 +75,7 @@ int main(int argc, char const *argv[]) {
 		msg += to_string(i) + "-" + to_string(a[i]);
 	}
 
-	cout << int(peso_total) << endl << msg << endl;
+	cout << peso_total << endl << msg << endl;
 
 	return 0;
 }
