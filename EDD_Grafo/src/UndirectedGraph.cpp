@@ -38,9 +38,9 @@ int GrafoNaoDirigido::ler(string fileName)
             int verticeOrigem, verticeDestino;
             float peso;
             myReadFile >> verticeOrigem >> verticeDestino >> peso;
+            inserirAresta(verticeOrigem, verticeDestino, peso);
             if (myReadFile.eof())
               break;
-            inserirAresta(verticeOrigem, verticeDestino, peso);
         }
     }
     myReadFile.close();

@@ -39,9 +39,9 @@ int GrafoDirigido::ler(string fileName)
             int verticeOrigem, verticeDestino;
             float peso;
             myReadFile >> verticeOrigem >> verticeDestino >> peso;
+            inserirArco(verticeOrigem, verticeDestino, peso);
             if (myReadFile.eof())
                 break;
-            inserirArco(verticeOrigem, verticeDestino, peso);
         }
     }
     myReadFile.close();
