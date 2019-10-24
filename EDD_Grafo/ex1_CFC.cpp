@@ -1,125 +1,108 @@
-#include "include/UndirectedGraph.h"
-#include "include/DirectedGraph.h"
+from grafo import Grafo
 
-#include <list>
+g = Grafo(True, False)
 
-using namespace std;
+print(g.arestas)
+print(g.transposta())
 
-// Algoritmo auxiliar DFS-Visit
-void DFS_Visit(GrafoDirigido* g, int v, int* a, bool* c, int* t, int* f, int tempo) {
+print("Hello World")
 
-	c[v] = true;
-	tempo++;
-	t[v] = tempo;
+#  1-CFC
 
-	vector<int> vizinhos = g->vizinhosSaintes(v);
-	for (int u : vizinhos) {
-		if (!c[u]) {
-            a[u] = v;
-			DFS_Visit(g, u, a, c, t, f, tempo);
-        }
-	}
+def vizinhos(d, v):
+        return d[v]
 
-	tempo++;
-	f[v] = tempo;
-}
+def DFS_Visit(g, v, visitado, tempoVisita, antecessor, tempoFinal, tempo):
+    print("ai")
+    visitado[v] = True
+    tempo = tempo + 1
+    tempoVisita[v] = tempo
+    print(g.arestas)
+    if v in g.arestas.keys():
+        for u in g.vizinhos(v): 
+            print(visitado)
+            if u in g.arestas.keys():
+                if visitado[u] == False:
+                    antecessor[u] = v
+                    DFS_Visit(g, u, visitado, tempoVisita, antecessor, tempoFinal, tempo)
+    
+    
+    tempo = tempo + 1
+    tempoFinal[v] = tempo
+#
 
-// Algoritmo auxiliar DFS
-void DFS(GrafoDirigido* g, int num_vertices, bool* c, int* t, int* f, int* a) {
+def DFS(g, visitado, tempoVisita, antecessor, tempoFinal):
+    # configurando todos os vértices
+    print(visitado)
+    visitado = {x:False for x in g.vertices} # Cv←false ∀v ∈ V
+    tempoVisita = {x:float('inf') for x in g.vertices} # Tv ←∞ ∀v ∈ V
+    tempoFinal = {x:float('inf') for x in g.vertices} # Fv ←∞ ∀v ∈ V
+    antecessor = {x:None for x in g.vertices} # Av ←∞ ∀v ∈ V
+    print(visitado)
+    tempo = 0
+    
+    for u in g.vertices:
+        if u in g.arestas.keys():
+            if visitado[u] == False:
+                DFS_Visit(g, u, visitado, tempoVisita, antecessor, tempoFinal, tempo)
+                
+    return(visitado, tempoVisita, antecessor, tempoFinal)
+#
 
-	for (int i = 0; i < num_vertices; ++i) {
-		c[i] = false;
-		t[i] = INFINITE_INT;
-		a[i] = -1;
-		f[i] = INFINITE_INT;
-	}
+# algoritmo auxiliar DFS-Alterado
+def DFS_Alterado(gTransposto, visitado, tempoVisita, antecessor, tempoFinal):
+    visitado = {x:False for x in g.vertices} # Cv←false ∀v ∈ V
+    tempoVisita = {x:float('inf') for x in g.vertices} # Tv ←∞ ∀v ∈ V
+    tempoFinal = {x:float('inf') for x in g.vertices} # Fv ←∞ ∀v ∈ V
+    antecessor = {x:None for x in g.vertices} # Av ←∞ ∀v ∈ V
+    
+    tempo = 0
+    print("Hola manito")
+    
+    # pega em ordem decrescente de F
+    teste = True
+    while (teste):
+        teste = False
+        maior = -1
+        maior_indice = -1
+        print(g.vertices)
+        for i in g.vertices:
+            if tempoFinal[i] > maior and visitado[i] == False:
+                teste = True
+                maior = tempoFinal[i]
+                maior_indice = i
+        
+        if maior_indice != -1:
+            DFS_Visit(gTransposto, maior_indice, visitado, tempoVisita, antecessor, tempoFinal, tempo)
 
-    int tempo = 0;
+#
 
-	for (int u = 1; u < num_vertices; ++u) {
-		if (!c[u])
-			DFS_Visit(g, u, a, c, t, f, tempo);
-	}
-}
+# Vetor C/Visitado
+# Vetor T/tempo de visita
+# Vetor A'/Antecessor 
+# Vetor F/ tempo que é finalizado
+    
+vertices = g.vertices
+visitado = {}
+tempoVisita = {}
+antecessor = {}
+tempoFinal = {}
+print("HelloWood2")
+DFS(g, visitado, tempoVisita, antecessor, tempoFinal)
+print("HelloWood9?")
+auxiliar = g
+auxiliar.arestas = g.transposta()
+print("HelloWood1")
+DFS_Alterado(auxiliar, visitado, tempoVisita, antecessor, tempoFinal)
 
-// Algoritmo auxiliar DFSAlterado
-void DFSAlterado(GrafoDirigido* g, int num_vertices, bool* c, int* t, int* f, int* a) {
 
-	for (int i = 0; i < num_vertices; ++i) {
-		c[i] = false;
-		t[i] = INFINITE_INT;
-		f[i] = INFINITE_INT;
-		a[i] = -1;
-	}
+print("HelloWood")
+# Saida
 
-    int tempo = 0;
+for i in g.vertices:
+    if (antecessor[i] == None):
+        saida = str(i) + (", ")
+    else:
+        saida = str(i) + (": ")
 
-	//pegar em ordem decrescente de T
-	bool tst = true;
-	while (tst) {
-		tst = false;
-		int maior = -1;
-		int maior_idx = -1;
-		for (size_t i = 1; i < num_vertices; ++i) {
-			if (f[i] > maior && !c[i]) {
-				tst = true;
-				maior = f[i];
-				maior_idx = i;
-			}
-		}
-		if (maior_idx != -1) {
-			DFS_Visit(g, maior_idx, a, c, t, f, tempo);
-		}
-	}
-}
-
-/////////////////// MAIN /////////////////////////////////
-int main(int argc, char** argv) {
-    GrafoDirigido* grafo = new GrafoDirigido();
-
-    // Checagem do arquivo passado por parametro
-    if (argc < 2) {
-        cout << "Insira o nome do arquivo" << '\n';
-        return 1;
-    }
-
-    if (!grafo->ler(argv[1])) {
-        cout << "Arquivo inexistente" << '\n';
-        return 1;
-    }
-
-	////////////// CFC ///////////////////////
-
-	// Inicializacao
-	int num_vertices = grafo->qtdVertices()+1;
-	bool* c = new bool[num_vertices];
-	int* t = new int[num_vertices];
-	int* a = new int[num_vertices];
-	int* f = new int[num_vertices];
-
-	DFS(grafo, num_vertices, c, t, f, a);
-
-    GrafoDirigido* grafo_transp = new GrafoDirigido();
-	for (int i = 0; i < num_vertices; ++i) {
-		grafo_transp->inserirVertice(grafo->rotulo(i));
-	}
-	for (int i = 1; i < num_vertices; ++i) {
-		vector<int> vizinhos = grafo->vizinhosSaintes(i);
-		for (int u : vizinhos) {
-			grafo_transp->inserirArco(u, i, grafo->peso(i, u));
-		}
-	}
-
-	DFSAlterado(grafo_transp, num_vertices, c, t, f, a);
-
-	// saida
-	for (int u = 1; u < num_vertices; u++) {
-		if (a[u] == -1)
-			cout << "\n" << u << ", ";
-		else 
-			cout << u << ", ";
-	}
-	cout << "\n";
-
-    return 0;
-}
+print(saida)
